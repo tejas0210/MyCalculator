@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String numberAtRight;
     private OPERATOR currentOPERATOR;
     private int calculationResult;
+    private String wholeString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         curretNumber = "";
         calculationResult = 0;
+        wholeString = "";
 
         txtCalSpace = findViewById(R.id.txtCalSpace);
 
@@ -110,11 +112,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         calculationResult = 0;
         currentOPERATOR = null;
         txtCalSpace.setText("0");
+        wholeString = "";
     }
 
     private void numberTapped(int tappedNumber){
         curretNumber = curretNumber + String.valueOf(tappedNumber);
-        txtCalSpace.setText(curretNumber);
+        wholeString+=tappedNumber;
+        txtCalSpace.setText(wholeString);
+
     }
 
     private void operatorTapped(OPERATOR operator){
@@ -136,17 +141,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case MULTIPLY:
                         calculationResult = Integer.parseInt(numberAtleft) * Integer.parseInt(numberAtRight);
                         break;
+                    case EQUAL:
+                        if(calculationResult!=0){
+                            txtCalSpace.setText(calculationResult);
+                        }
                 }
-
                 numberAtleft = String.valueOf(calculationResult);
-                txtCalSpace.setText(numberAtleft);
+                txtCalSpace.setText(wholeString);
             }
         }
         else{
             numberAtleft = curretNumber;
+            if(wholeString==""){
+                wholeString+=numberAtleft;
+            }
             curretNumber = "";
         }
 
         currentOPERATOR = operator;
+        if(currentOPERATOR!=null){
+            if(currentOPERATOR==OPERATOR.PLUS){
+                wholeString+="+";
+                txtCalSpace.setText(wholeString);
+            }
+            else if(currentOPERATOR==OPERATOR.MINUS){
+                wholeString+="-";
+                txtCalSpace.setText(wholeString);
+            }
+            else if(currentOPERATOR==OPERATOR.DIVIDE){
+                wholeString+="/";
+                txtCalSpace.setText(wholeString);
+            }
+            else if(currentOPERATOR==OPERATOR.MULTIPLY){
+                wholeString+="*";
+                txtCalSpace.setText(wholeString);
+            }
+            else{
+                wholeString = String.valueOf(calculationResult);
+                txtCalSpace.setText(wholeString);
+            }
+        }
     }
 }
