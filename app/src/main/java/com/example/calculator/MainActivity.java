@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String numberAtleft;
     private String numberAtRight;
     private OPERATOR currentOPERATOR;
-    private int calculationResult;
+    private float calculationResult;
     private String wholeString;
 
     @Override
@@ -130,20 +130,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 switch (currentOPERATOR) {
                     case PLUS:
-                        calculationResult = Integer.parseInt(numberAtleft) + Integer.parseInt(numberAtRight);
+                        calculationResult = Float.parseFloat(numberAtleft) + Float.parseFloat(numberAtRight);
                         break;
                     case MINUS:
-                        calculationResult = Integer.parseInt(numberAtleft) - Integer.parseInt(numberAtRight);
+                        calculationResult = Float.parseFloat(numberAtleft) - Float.parseFloat(numberAtRight);
                         break;
                     case DIVIDE:
-                        calculationResult = Integer.parseInt(numberAtleft) / Integer.parseInt(numberAtRight);
+                        calculationResult = Float.parseFloat(numberAtleft) / Float.parseFloat(numberAtRight);
                         break;
                     case MULTIPLY:
-                        calculationResult = Integer.parseInt(numberAtleft) * Integer.parseInt(numberAtRight);
+                        calculationResult = Float.parseFloat(numberAtleft) * Float.parseFloat(numberAtRight);
                         break;
                     case EQUAL:
                         if(calculationResult!=0){
-                            txtCalSpace.setText(calculationResult);
+                            txtCalSpace.setText(String.valueOf(calculationResult));
                         }
                 }
                 numberAtleft = String.valueOf(calculationResult);
