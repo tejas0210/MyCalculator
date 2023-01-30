@@ -3,13 +3,15 @@ package com.example.calculator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private enum OPERATOR{
-        PLUS,MINUS,DIVIDE,MULTIPLY,EQUAL;
+        PLUS,MINUS,DIVIDE,MULTIPLY,EQUAL
     }
     private TextView txtCalSpace;
 
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btnDivide).setOnClickListener(MainActivity.this);
         findViewById(R.id.btnMultiply).setOnClickListener(MainActivity.this);
         findViewById(R.id.btnEqual).setOnClickListener(MainActivity.this);
+        findViewById(R.id.btnCut).setOnClickListener(MainActivity.this);
 
     }
 
@@ -102,6 +105,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnMultiply:
                 operatorTapped(OPERATOR.MULTIPLY);
                 break;
+            case R.id.btnCut:
+                removeLastChar(wholeString);
+                break;
+
         }
     }
 
@@ -119,6 +126,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         curretNumber = curretNumber + String.valueOf(tappedNumber);
         wholeString+=tappedNumber;
         txtCalSpace.setText(wholeString);
+
+    }
+
+    private void removeLastChar(String s) {
+        if(s.length()>0) {
+            if(s.substring(s.length()-1) == "+"){
+                currentOPERATOR = null;
+                Toast.makeText(this, wholeString, Toast.LENGTH_SHORT).show();
+            }
+            if(s.substring(s.length()-1) == "-"){
+                currentOPERATOR = null;
+                Toast.makeText(this, wholeString, Toast.LENGTH_SHORT).show();
+            }
+            if(s.substring(s.length()-1) == "*"){
+                currentOPERATOR = null;
+                Toast.makeText(this, wholeString, Toast.LENGTH_SHORT).show();
+            }
+            if(s.substring(s.length()-1) == "/"){
+                currentOPERATOR = null;
+                Toast.makeText(this, wholeString, Toast.LENGTH_SHORT).show();
+            }
+
+            s = s.substring(0,s.length()-1);
+            wholeString = s;
+            curretNumber = wholeString;
+            if(wholeString.length()==0){
+                txtCalSpace.setText("0");
+            }
+            else{
+                txtCalSpace.setText(wholeString);
+            }
+        }
+        else{
+            txtCalSpace.setText("0");
+        }
+
 
     }
 
@@ -141,10 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case MULTIPLY:
                         calculationResult = Float.parseFloat(numberAtleft) * Float.parseFloat(numberAtRight);
                         break;
-                    case EQUAL:
-                        if(calculationResult!=0){
-                            txtCalSpace.setText(String.valueOf(calculationResult));
-                        }
+
                 }
                 numberAtleft = String.valueOf(calculationResult);
                 txtCalSpace.setText(wholeString);
@@ -152,9 +192,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else{
             numberAtleft = curretNumber;
-            if(wholeString==""){
-                wholeString+=numberAtleft;
-            }
             curretNumber = "";
         }
 
